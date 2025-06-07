@@ -1,13 +1,16 @@
-import React from 'react'
-import { RouterProvider } from 'react-router-dom'
-import routes from './router/routes'
+import React, { useEffect } from "react";
+import { RouterProvider } from "react-router-dom";
+import routes from "./router/routes";
+import { SnackbarProvider } from "notistack";
 
 const App = () => {
   return (
     <div>
-      <RouterProvider router={routes} />
+      <SnackbarProvider maxSnack = {3}>
+        <RouterProvider router={routes} />
+      </SnackbarProvider>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;

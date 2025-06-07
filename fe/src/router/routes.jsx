@@ -1,15 +1,28 @@
 import { createBrowserRouter } from "react-router-dom";
 import Login from "../pages/Auth/Login";
+import Otp from "../pages/Auth/Otp";
+import HomePage from "../pages/HomePage";
+import MainLayout from "../layouts/MainLayout";
 
 const routes = createBrowserRouter([
-    {
-        path: "/", 
-        element: <Login />,
-    },
-    {
+  {
+    path: "/",
+    element: <MainLayout />,
+    children: [
+      {
+        path: "/",
+        element: <HomePage />,
+      },
+      {
         path: "/login",
         element: <Login />,
-    }
-])
+      },
+      {
+        path: "/otp",
+        element: <Otp />,
+      },
+    ],
+  },
+]);
 
-export default routes
+export default routes;
