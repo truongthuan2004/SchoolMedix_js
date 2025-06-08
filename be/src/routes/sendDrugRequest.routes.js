@@ -5,7 +5,9 @@ import {
       refuseRequest,
       cancelRequest,
       receiveDrug,
-      doneTakingMedicine
+      doneTakingMedicine,
+      retrieveRequestByID,
+      listRequests
 }
       from '../controllers/sendDrugRequest.controller.js';
 
@@ -17,5 +19,7 @@ router.patch('/:id/refuse', refuseRequest);
 router.patch('/:id/cancel', cancelRequest);
 router.patch('/:id/receive', receiveDrug);
 router.patch('/:id/done', doneTakingMedicine);
+router.get('/:id', retrieveRequestByID);
+router.get('/', listRequests);
 
 export default router;
