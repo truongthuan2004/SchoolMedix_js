@@ -17,6 +17,7 @@ import {
   Star,
   CheckCircle,
 } from "lucide-react";
+import { Services } from "../components/Services";
 
 const LandingPage = () => {
   const features = [
@@ -185,32 +186,16 @@ const LandingPage = () => {
       </section>
 
       {/* Services Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Dịch vụ nổi bật
-            </h2>
-            <p className="text-xl text-gray-600">
-              Các tính năng chính của hệ thống SchoolMedix
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service, index) => (
-              <div
-                key={index}
-                className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-shadow duration-300"
-              >
-                <div className="mb-6">{service.icon}</div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4">
-                  {service.title}
-                </h3>
-                <p className="text-gray-600">{service.description}</p>
-              </div>
-            ))}
-          </div>
+      <section className="py-20 bg-gray-50 max-w-7xl mx-auto px-4">
+        <div className="text-center">
+          <h2 className="text-3xl font-bold text-gray-900">
+            Dịch vụ nổi bật
+          </h2>
+          <p className="text-xl text-gray-600">
+            Các tính năng chính của hệ thống SchoolMedix
+          </p>
         </div>
+        <Services services={services} />
       </section>
 
       {/* Blog Section */}

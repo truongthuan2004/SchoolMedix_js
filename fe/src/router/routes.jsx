@@ -3,6 +3,7 @@ import Login from "../pages/Auth/Login";
 import Otp from "../pages/Auth/Otp";
 import HomePage from "../pages/HomePage";
 import MainLayout from "../layouts/MainLayout";
+import { ParentDashboard } from "../pages/ParentDashBoard";
 
 const routes = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const routes = createBrowserRouter([
         path: "/otp",
         element: <Otp />,
       },
+      {
+        path: "/ParentDashboard",
+        element: <ParentDashboard />,
+      }
     ],
   },
 ]);
