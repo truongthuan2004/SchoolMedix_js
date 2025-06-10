@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use('/api/post', postRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/send-drug-requests', sendDrugRequestRoutes);
-app.use('/api', checkUpRoutes);
+app.use('/api/checkup', checkUpRoutes);
 
 
 app.listen(PORT, () => {

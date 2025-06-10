@@ -352,79 +352,29 @@ export async function recordCheckUp(req, res) {
 
     } = req.body
 
-    if (!height || !weight || !blood_pressure || !left_eye || !right_eye || !ear || !nose) {
-        return res.status(400).json({ error: true, message: "Các chỉ số cơ bản không thể trống." });
+    if(!height || !weight ||!blood_pressure ||!left_eye ||!right_eye ||!ear||!nose){
+         return res.status(400).json({ error: true, message: "Các chỉ số cơ bản không thể trống." });
     }
 
-
+  
 
     try {
-
-        const result_checkup_register_id = await query('SELECT * FROM checkupregister WHERE id = $1 ', [register_id]);
-
-        if (result_checkup_register_id.rowCount === 0) {
-            return res.status(400).json({ error: true, message: "Không tìm thấy Register ID." });
+      
+        const result_checkup_register_id = await query('SELECT * FROM checkupregister WHERE id = $1 ',[register_id]);
+           
+        if(result_checkup_register_id.rowCount === 0 ){
+             return res.status(400).json({ error: true, message: "Không tìm thấy Register ID." });
         }
 
-        const result_check_healthrecord_id = await query('SELECT * FROM healthrecord WHERE register_id = $1 ', [register_id]);
-
-        if (result_check_healthrecord_id.rowCount > 0) {
-            return res.status(400).json({ error: true, message: "Đã tồn tại Record ." });
+        const result_check_healthrecord_id = await query ('SELECT * FROM healthrecord WHERE register_id = $1 ',[register_id]);
+      
+        if(result_check_healthrecord_id.rowCount === 0 ){
+             return res.status(400).json({ error: true, message: "Đã tồn tại Record ." });
         } else {
-            const result = await query(
-                `INSERT INTO HealthRecord (
-      register_id,
-      height,
-      weight,
-      blood_pressure,
-      left_eye,
-      right_eye,
-      ear,
-      nose,
-      throat,
-      teeth,
-      gums,
-      skin_condition,
-      heart,
-      lungs,
-      spine,
-      posture,
-      final_diagnosis
-    ) VALUES (
-      $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17
-    )
-    RETURNING *`,
-                [
-                    register_id,
-                    height,
-                    weight,
-                    blood_pressure,
-                    left_eye,
-                    right_eye,
-                    ear,
-                    nose,
-                    throat,
-                    teeth,
-                    gums,
-                    skin_condition,
-                    heart,
-                    lungs,
-                    spine,
-                    posture,
-                    final_diagnosis
-                ]
-            );
-
-            if (result.rowCount === 0) {
-                res.status(400).json({ error: true, message: 'Không thể tạo health record.' });
-            } else {
-                return res.status(200).json({ error: false, message: 'Tạo record thành công' });
-
-            }
-
+            res.status(200).json({ error: false, message: 'Record thành công' });
         }
 
-
+       
     } catch (err) {
         console.error("❌ Error creating Campaign ", err);
         return res.status(500).json({ error: true, message: "Lỗi khi tạo record." });
