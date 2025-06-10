@@ -1,4 +1,5 @@
 // index.js
+
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
@@ -7,11 +8,14 @@ import userRoutes from './users.routes.js'
 import sendDrugRequestRoutes from './sendDrugRequest.routes.js';
 import checkUpRoutes from './checkUp.routes.js';
 
-const app = express();
-const PORT = 3000;
 
-app.use(cors());
-app.use(bodyParser.json());
+
+const router = express.Router();
+
+router.use("/", postRoutes);
+router.use("/", userRoutes);
+router.use("/", diseaseRoutes);
+
 
 app.use('/api/post', postRoutes);
 app.use('/api/users', userRoutes);
@@ -24,3 +28,4 @@ app.listen(PORT, () => {
 });
 
 export default app;     
+
