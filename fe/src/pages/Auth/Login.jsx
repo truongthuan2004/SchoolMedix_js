@@ -1,14 +1,19 @@
-import * as React from "react";
 import { enqueueSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
 import { loginWithEmailAndPassword } from "../../config/Supabase";
+import { saveUser } from "../../service/authService";
+import { useState } from "react";
+import { ClipLoader } from "react-spinners";
+
 
 const Login = () => {
-  const [formData, setFormData] = React.useState({
+  const [formData, setFormData] = useState({
     email: "",
     password: "",
     remember: false,
   });
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -21,6 +26,7 @@ const Login = () => {
   };
 
   const handleSubmit = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
     const { email, password } = formData;
     
@@ -30,8 +36,10 @@ const Login = () => {
       enqueueSnackbar(`Login failed: ${error.message}`, { variant: "error" });
     } else {
       enqueueSnackbar("Login successful!", { variant: "success" });
-      navigate("/dashboard"); // Adjust redirect path as needed
+      saveUser(data.user);
+      navigate("/"); 
     }
+    setIsLoading(false);
   };
 
   return (
@@ -136,7 +144,9 @@ const Login = () => {
               focus:outline-none focus:ring-2 focus:ring-blue-500/20 transform hover:scale-[1.02] 
               transition-all duration-200 shadow-lg hover:shadow-xl"
             >
-              Sign In
+              {
+                isLoading ? <ClipLoader color="#36d7b7" loading={true} size={50} /> : "Log In"
+              }
             </button>
           </div>
 
