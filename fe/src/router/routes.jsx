@@ -1,9 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
-import Login from "../pages/Auth/Login";
-import Otp from "../pages/Auth/Otp";
-import HomePage from "../pages/HomePage";
 import MainLayout from "../layouts/MainLayout";
-import { ParentDashboard } from "../pages/ParentDashBoard";
+import HomePage from '../pages/HomePage'
+import Login from "../pages/Auth/Login";
+import PrivateRoute from "./PrivateRoute";
+import AdminLayout from "../layouts/AdminLayout";
+import SendDrugManagement from "../pages/Admin/SendDrugManagement";
+import AdminDashboard from "../pages/Admin/AdminDashboard";
 
 const routes = createBrowserRouter([
   {
@@ -11,21 +13,32 @@ const routes = createBrowserRouter([
     element: <MainLayout />,
     children: [
       {
-        path: "/",
-        element: <HomePage />,
+        index: true, 
+        element: <HomePage/>,
       },
       {
-        path: "/login",
+        path: "login",
         element: <Login />,
       },
+    ],
+  },
+  {
+    path: "/admin",
+    element: <PrivateRoute allowedRoles={["admin"]} currentRole={"admin"}/>,
+    children: [
       {
-        path: "/otp",
-        element: <Otp />,
+        element: <AdminLayout />,
+        children: [
+          {
+            path: "",
+            element: <AdminDashboard />,
+          },
+          {
+            path: "send-drug",
+            element: <SendDrugManagement />,
+          },
+        ],
       },
-      {
-        path: "/ParentDashboard",
-        element: <ParentDashboard />,
-      }
     ],
   },
 ]);
