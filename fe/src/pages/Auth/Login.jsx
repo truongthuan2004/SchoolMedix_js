@@ -1,13 +1,21 @@
-import * as React from "react";
 import { enqueueSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
+import { loginWithEmailAndPassword } from "../../config/Supabase";
+import { saveUser } from "../../service/authService";
+import { useState } from "react";
+import { ClipLoader } from "react-spinners";
+
 
 const Login = () => {
-  const [formData, setFormData] = React.useState({
-    username: "",
+  const [formData, setFormData] = useState({
+    email: "",
     password: "",
     remember: false,
   });
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -17,13 +25,22 @@ const Login = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Thêm logic gửi API hoặc xử lý đăng nhập tại đây
+    const { email, password } = formData;
+    
+    const { data, error } = await loginWithEmailAndPassword(email, password);
+    
+    if (error) {
+      enqueueSnackbar(`Login failed: ${error.message}`, { variant: "error" });
+    } else {
+      enqueueSnackbar("Login successful!", { variant: "success" });
+      saveUser(data.user);
+      navigate("/"); 
+    }
+    setIsLoading(false);
   };
-
-  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50 flex items-center justify-center p-4">
@@ -52,22 +69,22 @@ const Login = () => {
         {/* Login Form */}
         <div className="bg-white/70 backdrop-blur-sm rounded-3xl shadow-xl border border-white/20 p-8">
           <div className="space-y-6">
-            {/* Username Field */}
+            {/* Email Field */}
             <div className="space-y-2">
               <label
-                htmlFor="username"
+                htmlFor="email"
                 className="text-sm font-medium text-gray-700 block"
               >
-                Username
+                Email
               </label>
               <div className="relative">
                 <input
-                  type="text"
-                  id="username"
-                  name="username"
-                  value={formData.username}
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
                   onChange={handleChange}
-                  placeholder="Enter your username"
+                  placeholder="Enter your email"
                   className="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 placeholder-gray-400"
                 />
               </div>
@@ -109,12 +126,12 @@ const Login = () => {
               <button
                 type="button"
                 className="text-sm text-blue-600 hover:text-blue-700 font-medium 
-                transition-colors  hover:underline cursor-pointer"
+                transition-colors hover:underline cursor-pointer"
                 onClick={() => {
-                    navigate('/login/otp')
+                  navigate('/login/otp');
                 }}
               >
-                Quên mật khẩu
+                Forgot Password
               </button>
             </div>
 
@@ -125,9 +142,11 @@ const Login = () => {
               className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white py-3 
               px-4 rounded-xl font-medium hover:from-blue-700 hover:to-cyan-700 
               focus:outline-none focus:ring-2 focus:ring-blue-500/20 transform hover:scale-[1.02] 
-              transition-all duration-200 shadow-lg hover:shadow-xle"
+              transition-all duration-200 shadow-lg hover:shadow-xl"
             >
-              Sign In
+              {
+                isLoading ? <ClipLoader color="#36d7b7" loading={true} size={50} /> : "Log In"
+              }
             </button>
           </div>
 

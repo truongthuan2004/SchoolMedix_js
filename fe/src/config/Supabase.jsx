@@ -7,43 +7,49 @@ console.log("supabase url: ", supabaseUrl);
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-export const loginWithPhoneAndPassword = async (phone, password) => {
+export const loginWithEmailAndPassword = async (email, password) => {
   const { data, error } = await supabase.auth.signInWithPassword({
-    phone,
+    email,
     password,
   });
 
   if (error) {
     console.error("❌ Login error:", error.message);
+    return { error };
   } else {
     console.log("✅ Logged in:", data);
+    return { data };
   }
 };
 
-export const sendOtp = async (phone) => {
+export const sendOtp = async (email) => {
   const { data, error } = await supabase.auth.signInWithOtp({
-    phone,
+    email,
   });
 
   if (error) {
     console.error("❌ Error sending OTP:", error.message);
+    return { error };
   } else {
-    console.log("✅ OTP sent to phone:", phone);
+    console.log("✅ OTP sent to email:", email);
+    return { data };
   }
 };
 
-export const verifyOtp = async (phone, token) => {
+export const verifyOtp = async (email, token) => {
   const { data, error } = await supabase.auth.verifyOtp({
-    phone,
-    token, // OTP code sent via SMS
-    type: "sms", // This must match the delivery method
+    email,
+    token,
+    type: "email",
   });
 
-  console.log("Phone: " + phone + " | "  + "OTP: " + token)
+  console.log("Email: " + email + " | " + "OTP: " + token);
 
   if (error) {
     console.error("❌ OTP verification failed:", error.message);
+    return { error };
   } else {
     console.log("✅ OTP verified, user signed in:", data);
+    return { data };
   }
 };

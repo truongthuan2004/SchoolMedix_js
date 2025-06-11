@@ -1,6 +1,7 @@
 import { RouterProvider } from "react-router-dom";
 import routes from "./router/routes";
 import { SnackbarProvider } from "notistack";
+import Sidebar from "./components/Sidebar";
 
 const App = () => {
   return (

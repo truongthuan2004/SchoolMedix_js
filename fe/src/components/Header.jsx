@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { User, Menu, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { MdOutlineLogout, MdOutlineSchool } from "react-icons/md";
+import { getUser, removeUser } from "../service/authService";
+import { enqueueSnackbar } from "notistack";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -25,11 +28,16 @@ const Header = () => {
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between h-16 px-4">
           {/* Logo */}
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => handleNavigation("/")}>
+          <div
+            className="flex items-center gap-3 cursor-pointer"
+            onClick={() => handleNavigation("/")}
+          >
             <div className="bg-blue-600 text-white w-8 h-8 rounded flex items-center justify-center font-bold text-lg">
-              📚
+              <MdOutlineSchool className="text-white text-lg" />
             </div>
-            <span className="text-xl font-semibold text-gray-800">SchoolMedix</span>
+            <span className="text-xl font-semibold text-gray-800">
+              SchoolMedix
+            </span>
           </div>
 
           {/* Desktop Menu */}
@@ -47,13 +55,44 @@ const Header = () => {
 
           {/* User icon & Mobile Menu Button */}
           <div className="flex items-center gap-4">
-            
-            <button className="md:hidden cursor-pointer" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            <button
+              className="md:hidden cursor-pointer"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
             </button>
-            <button className="text-gray-700 cursor-pointer hover:text-blue-600 transition" onClick={() => {navigate('/login')}}>
-              Đăng nhập
+            <button
+              onClick={() => {
+                if (getUser()) {
+                  navigate('/' + getUser()?.app_metadata?.role);
+                } else {
+                  navigate("/login");
+                }
+              }}
+              className="text-gray-700 cursor-pointer hover:text-blue-600 transition"
+            >
+              {localStorage.getItem("user") ? (
+                <div className="flex gap-2 bg-green-400 shadow-md shadow-gray-600 rounded-md p-2 items-center justify-center">
+                  {getUser()?.user_metadata?.name}
+                </div>
+              ) : (
+                <>Đăng nhập</>
+              )}
             </button>
+            {getUser() && (
+              <MdOutlineLogout
+                onClick={() => {
+                  removeUser();
+                  navigate("/");
+                  enqueueSnackbar("Đăng xuất thành công", { variant: "success" });
+                }}
+                className="text-4xl cursor-pointer p-2 text-white bg-blue-600 rounded-md"
+              />
+            )}
           </div>
         </div>
 
