@@ -14,18 +14,16 @@ const router = express.Router();
 
 router.use("/", postRoutes);
 router.use("/", userRoutes);
-router.use("/", diseaseRoutes);
+//router.use("/", diseaseRoutes);
 
 
-app.use('/api/post', postRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/send-drug-requests', sendDrugRequestRoutes);
-app.use('/api', checkUpRoutes);
+router.use('/post', postRoutes);
+router.use('/users', userRoutes);
+router.use('/send-drug-requests', sendDrugRequestRoutes);
+router.use('/checkup', checkUpRoutes);
 
 
-app.listen(PORT, () => {
-      console.log(`🚀 Server is running at http://localhost:${PORT}`);
-});
 
-export default app;     
+
+export default router;     
 
