@@ -3,9 +3,10 @@ import {
         cancelRegister,
         closeRegister,
         createCampaign ,
-        getCheckupRegister,
-        recordCheckUp,
+        getCheckupRegisterParent,
+        updateHealthRecord,
         submitRegister,
+        getCheckupRegisterStudent,
         
  } 
  from '../controllers/checkUp.controller.js';
@@ -13,12 +14,11 @@ import {
 const router = express.Router();
 
 router.post('/campaigns/create', createCampaign); // admin tạo campaigns
-router.get('/checkup-registers/:id',getCheckupRegister);   //Parent nhận form Register
-router.put('/:id/submit',submitRegister);// Parent nhập form Register
-router.put('/:id/close',closeRegister);// Amdin đóng form Register
-router.put('/:id/cancel',cancelRegister) //Admin cancel form Register
-router.post('/record',recordCheckUp) // Doctor or Nurse record Heatlh Check Up for Student
-
-                                        // Student xem dc Register
+router.get('/checkup-registers-parent/:id',getCheckupRegisterParent);   //Parent nhận form Register
+router.put('/submit/:id',submitRegister);// Parent nhập form Register
+router.put('/close/:id',closeRegister);// Amdin đóng form Register
+router.put('/cancel/:id',cancelRegister) //Admin cancel form Register
+router.put('/record',updateHealthRecord) // Doctor or Nurse update Heatlh Record for Student
+router.get('/checkup-registers-student/:id',getCheckupRegisterStudent)     ;  // Student xem dc Register
 
 export default router;
