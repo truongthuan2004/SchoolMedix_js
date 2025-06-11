@@ -5,10 +5,10 @@ import { MdOutlineMedicalInformation } from "react-icons/md";
 import { RiHome9Line } from "react-icons/ri";
 import { BsTextIndentLeft } from "react-icons/bs";
 import { MdMedicationLiquid } from "react-icons/md";
-import { LuSyringe } from "react-icons/lu";
+import { LuLayoutDashboard, LuSyringe } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import { removeUser } from "../service/authService";
-import { enqueueSnackbar } from 'notistack';
+import { enqueueSnackbar } from "notistack";
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -19,6 +19,11 @@ const Sidebar = () => {
   const adminItems = [
     { title: "Trang chủ", path: "/", icon: <RiHome9Line /> },
     {
+      title: "Dashboard / Profile",
+      path: "",
+      icon: <LuLayoutDashboard />,
+    },
+    {
       title: "Quản lý bệnh",
       path: "/disease",
       icon: <MdOutlineMedicalInformation />,
@@ -28,6 +33,7 @@ const Sidebar = () => {
       path: "/health-record",
       icon: <BsTextIndentLeft />,
     },
+
     { title: "Tiêm chủng", path: "/vaccination", icon: <LuSyringe /> },
     {
       title: "Quản lý dặn thuốc",
@@ -104,10 +110,10 @@ const Sidebar = () => {
             key={item.title}
             onClick={() => {
               handleAction(item.action);
-              if (index === 1){
+              if (index === 1) {
                 removeUser();
-                enqueueSnackbar("Đăng xuất thành công", { variant: 'success' });
-                navigate('/');
+                enqueueSnackbar("Đăng xuất thành công", { variant: "success" });
+                navigate("/");
               }
             }}
             className="w-full flex items-center gap-3 p-3 rounded-lg mb-1 text-left text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"

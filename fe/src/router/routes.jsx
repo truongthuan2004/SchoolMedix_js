@@ -7,6 +7,11 @@ import AdminLayout from "../layouts/AdminLayout";
 import SendDrugManagement from "../pages/Admin/SendDrugManagement";
 import AdminDashboard from "../pages/Admin/AdminDashboard";
 import ParentDashboard from "../pages/Parent/ParentDashboard";
+import SendDrugManagementNurse from "../pages/Nurse/SendDrugManagementNurse";
+import NurseDashboard from "../pages/Nurse/NurseDashboard";
+import ParentLayout from "../layouts/ParentLayout";
+import SendDrug from "../pages/Parent/SendDrug";
+import SendDrugForm from "../pages/Parent/SendDrugForm";
 
 const routes = createBrowserRouter([
   {
@@ -48,8 +53,42 @@ const routes = createBrowserRouter([
     children: [
        {
         path: "/parent",
-        element: <ParentDashboard />,
+        element: <ParentLayout />,
+        children: [
+          {
+            path: '',
+            element: <ParentDashboard/>
+          },
+          {
+            path: 'send-drug',
+            element: <SendDrug/>
+          },
+          {
+            path: 'send-drug-form',
+            element: <SendDrugForm/>
+          }
+        ]
        } 
+    ]
+  },
+  {
+    path: "/nurse",
+    element: <PrivateRoute allowedRoles={["nurse"]} currentRole={"nurse"}/>,
+    children: [
+      {
+        path: "/nurse",
+        element: <AdminLayout/>,
+        children: [
+          {
+            path: "",
+            element: <NurseDashboard/>
+          },
+          {
+            path: "send-drug",
+            element: <SendDrugManagementNurse />,
+          }
+        ]
+      }
     ]
   }
 ]);

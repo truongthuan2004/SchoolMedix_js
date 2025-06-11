@@ -68,7 +68,7 @@ const Header = () => {
             <button
               onClick={() => {
                 if (getUser()) {
-                  navigate(getUser()?.app_metadata?.role);
+                  navigate('/' + getUser()?.app_metadata?.role);
                 } else {
                   navigate("/login");
                 }
